@@ -3,7 +3,7 @@
 
 #define ARRAY_LEN(arr) (sizeof(arr) / sizeof(arr[0]))
 
-// we will block 256kb in memory
+// we will block 2mb of memory
 #define NODE_POOL_CAP 1024
 #define MAX_CHILDREN 256
 

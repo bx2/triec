@@ -1,18 +1,8 @@
+#include "trie.h"
 #include <assert.h>
 #include <stdio.h>
 
-#define ARRAY_LEN(arr) (sizeof(arr) / sizeof(arr[0]))
-
-// we will block 2mb of memory
-#define NODE_POOL_CAP 1024
-#define MAX_CHILDREN 256
-
-typedef struct Node Node;
-struct Node {
-  Node *children[MAX_CHILDREN];
-};
-
-Node nodePool[NODE_POOL_CAP] = {0};
+Node nodePool[NODE_POOL_CAP];
 size_t nodePoolCount = 0;
 
 Node *allocNode(void) {
@@ -21,8 +11,10 @@ Node *allocNode(void) {
 }
 
 void insertText(Node *root, const char *text) {
-  if (text == NULL || *text == '\0')
+  if (text == NULL || *text == '\0') {
+    root->isEndOfWord = true;
     return;
+  }
 
   assert(root != NULL);
   size_t index = (size_t)*text;
@@ -41,20 +33,14 @@ void dumpDot(Node *root) {
       size_t childIndex = root->children[i] - nodePool;
       printf("    Node_%zu -> Node_%zu [label=%c]\n", index, childIndex,
              (char)i);
+
+      if (root->children[i]->isEndOfWord) {
+        // TODO: print an additional empty node to show the end of word
+        // for words that overlap, i.e. are prefixes of another words there is
+        // currently no obvious way to show this
+      }
+
       dumpDot(root->children[i]);
     }
   }
-}
-
-int main(void) {
-  Node *root = allocNode();
-  insertText(root, "hello");
-  insertText(root, "help");
-  insertText(root, "hell");
-  insertText(root, "heaven");
-  insertText(root, "helium");
-  printf("digraph {\n");
-  dumpDot(root);
-  printf("}\n");
-  return 0;
 }

@@ -35,7 +35,7 @@ void dumpDot(Node *root) {
              (char)i);
 
       if (root->children[i]->isEndOfWord) {
-        // TODO: print an additional empty node to show the end of word
+        // TODO: add an additional empty node to show the end of word
         // for words that overlap, i.e. are prefixes of another words there is
         // currently no obvious way to show this
       }

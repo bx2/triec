@@ -8,7 +8,9 @@
 
 ## Vim/NeoVim Setup
 
-Run `set makeprg=./build.sh` and then run `:make` to build the project and visualize the trie.
+1. Run `:make` to build the project.
+2. Run `:copen` to open the quickfix window.
+3. Run `:make run` to visualize the tree.
 
 ## References
 

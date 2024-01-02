@@ -26,18 +26,22 @@ void insertText(Node *root, const char *text) {
 }
 
 void dumpDot(Node *root) {
+  static size_t emptyNodeCounter = 0;
   size_t index = root - nodePool;
-  printf("    Node_%zu\n", index);
+  printf("\tNode_%zu\n", index);
+
   for (size_t i = 0; i < ARRAY_LEN(root->children); i++) {
     if (root->children[i] != NULL) {
       size_t childIndex = root->children[i] - nodePool;
-      printf("    Node_%zu -> Node_%zu [label=%c]\n", index, childIndex,
-             (char)i);
+      printf("\tNode_%zu -> Node_%zu [label=%c]\n", index, childIndex, (char)i);
 
+      // Add an additional empty node to show the end of word
       if (root->children[i]->isEndOfWord) {
-        // TODO: add an additional empty node to show the end of word
-        // for words that overlap, i.e. are prefixes of another words there is
-        // currently no obvious way to show this
+        printf("\tNode_%zu -> EmptyNode_%zu [style=dotted]\n", childIndex,
+               emptyNodeCounter);
+        printf("\tEmptyNode_%zu [label=\"%zu\", shape=none]\n",
+               emptyNodeCounter, emptyNodeCounter);
+        emptyNodeCounter++;
       }
 
       dumpDot(root->children[i]);

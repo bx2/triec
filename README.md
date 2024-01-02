@@ -3,7 +3,7 @@
 ## Quick Start
 
 ```bash
-./build.sh
+make run
 ```
 
 ## Vim/NeoVim Setup
